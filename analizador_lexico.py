@@ -22,11 +22,18 @@ def es_letra(c):
 def es_digito(c):
     return c.isdigit()
 
+# Función auxiliar para validar si un token es un número decimal bien formado
+def es_decimal_valido(token):
+    if token.count('.') != 1:
+        return False
+    parte_entera, parte_decimal = token.split('.')
+    return parte_entera.isdigit() and parte_decimal.isdigit() and parte_decimal != ""
+
 # Determina el estado del autómata para un token determinado
 def obtener_estado(token):
     if token in palabras_reservadas:
         return "q0"
-    
+
     if token in operadores:
         if token == "&&":
             return "q11"
@@ -42,7 +49,7 @@ def obtener_estado(token):
             return "q10"
         else:
             return "q0"
-        
+
     if token in delimitadores:
         if token in {"(", ")", "{", "}"}:
             return "q13"
@@ -52,25 +59,24 @@ def obtener_estado(token):
             return "q18"
         else:
             return "q0"
-        
-    if token.replace(".", "", 1).isdigit():
-        if "." in token:
-            return "q3"
-        else:
-            return "q2"
-        
+
+    if es_decimal_valido(token):
+        return "q3"  
+    elif token.isdigit():
+        return "q2"  
+
     if token.startswith('"') and token.endswith('"'):
         return "q0"
-    
+
     if es_letra(token[0]):
         if any(c.isdigit() for c in token):
             return "q15"
         else:
             return "q9"
-        
+
     if token == "$":
         return "q17"
-    
+
     return "ERROR"
 
 # Clasifica el tipo de token
@@ -81,7 +87,7 @@ def analizar_token(token):
         return "OPERADOR"
     elif token in delimitadores:
         return "DELIMITADOR"
-    elif token.replace(".", "", 1).isdigit():
+    elif es_decimal_valido(token) or token.isdigit():
         return "NUMERO"
     elif token.startswith('"') and token.endswith('"'):
         return "CADENA"
@@ -147,10 +153,11 @@ def automata_analizador(linea, numero_linea):
                 i += 1
             token = linea[inicio:i]
             estado = obtener_estado(token)
-            print(f"{numero_linea:<7} {token:<20} {'NUMERO':<20} {estado}")
-            resultado_csv.append([numero_linea, token, "NUMERO", estado])
+            tipo = analizar_token(token)
+            print(f"{numero_linea:<7} {token:<20} {tipo:<20} {estado}")
+            resultado_csv.append([numero_linea, token, tipo, estado])
 
-        # 6. Detectar DELIMITADORES como ; , ( )
+        # 6. Detectar DELIMITADORES como ; , ( ) {}
         elif linea[i] in delimitadores:
             estado = obtener_estado(linea[i])
             print(f"{numero_linea:<7} {linea[i]:<20} {'DELIMITADOR':<20} {estado}")
