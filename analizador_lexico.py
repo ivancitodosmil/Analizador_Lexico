@@ -29,6 +29,7 @@ def es_decimal_valido(token):
     parte_entera, parte_decimal = token.split('.')
     return parte_entera.isdigit() and parte_decimal.isdigit() and parte_decimal != ""
 
+#--------------------------------------------------------------------------------------------
 # Determina el estado del autómata para un token determinado
 def obtener_estado(token):
     if token in palabras_reservadas:
