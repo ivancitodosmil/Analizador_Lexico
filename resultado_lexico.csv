@@ -1,4 +1,4 @@
-Línea;Token;Tipo;Estado
+Linea;Token;Tipo;Estado
 1;$;COMENTARIO;q17
 2;a;IDENTIFICADOR;q9
 2;=;OPERADOR;q6

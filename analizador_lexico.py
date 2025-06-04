@@ -187,7 +187,7 @@ def automata_analizador(linea, numero_linea):
 def guardar_en_csv(nombre_archivo):
     with open(nombre_archivo, mode='w', encoding='utf-8', newline='') as archivo_csv:
         writer = csv.writer(archivo_csv, delimiter=';')
-        writer.writerow(["Línea", "Token", "Tipo", "Estado"])
+        writer.writerow(["Linea", "Token", "Tipo", "Estado"])
         writer.writerows(resultado_csv)
     print(f"\n✅ Resultado guardado en: {nombre_archivo}")
 
