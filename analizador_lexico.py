@@ -80,6 +80,7 @@ def obtener_estado(token):
 
     return "ERROR"
 
+#---------------------------------------------------------------------------------------------
 # Clasifica el tipo de token
 def analizar_token(token):
     if token in palabras_reservadas:
@@ -100,6 +101,7 @@ def analizar_token(token):
 # Lista donde guardaremos los resultados para el archivo CSV
 resultado_csv = []
 
+#---------------------------------------------------------------------------------------------
 # Función principal que analiza una línea de código
 def automata_analizador(linea, numero_linea):
     i = 0
@@ -209,3 +211,4 @@ def analizar_archivo(nombre_archivo):
 
 # Llamamos a la función principal con un archivo de prueba
 analizar_archivo("prueba.txt")
+
